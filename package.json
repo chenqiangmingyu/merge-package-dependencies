@@ -2,8 +2,10 @@
   "name": "merge-package-dependencies",
   "version": "1.0.0",
   "description": "flexiable package.json merger",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "npx webpack --config webpack.config.js",
+    "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,14 +17,26 @@
   "author": "chenqiang",
   "license": "ISC",
   "files": [
-    "src"
+    "lib"
   ],
   "dependencies": {
     "chalk": "^2.4.2",
-    "lodash": "^4.17.11",
+    "lodash.foreach": "^4.5.0",
+    "lodash.intersection": "^4.4.0",
+    "lodash.isempty": "^4.4.0",
+    "lodash.keys": "^4.2.0",
+    "lodash.pick": "^4.4.0",
+    "lodash.reduce": "^4.6.0",
+    "lodash.union": "^4.6.0",
     "node-fetch": "^2.3.0",
     "node-version-compare": "^1.0.1",
     "prettier-package-json": "^2.0.1",
     "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^1.0.1",
+    "standard-version": "^4.4.0",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
   }
 }

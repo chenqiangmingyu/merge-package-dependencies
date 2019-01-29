@@ -5,7 +5,13 @@
  */
 
 var path = require('path');
-var _ = require('lodash');
+var _keys = require('lodash.keys');
+var _each = require('lodash.foreach');
+var _isEmpty = require('lodash.isempty');
+var _pick = require('lodash.pick');
+var _reduce = require('lodash.reduce');
+var _union = require('lodash.union');
+var _intersection = require('lodash.intersection');
 var compare = require('node-version-compare');
 var format = require('prettier-package-json').format;
 var read = require('./utils/read');
@@ -33,9 +39,9 @@ var AVAILABLE_PROPERTIES = ['dependencies', 'devDependencies'];
  */
 function mergeByDefault(args) {
     var result = args.src;
-    var intersections = _.intersection(args.srcKeys, args.dstKeys);
+    var intersections = _intersection(args.srcKeys, args.dstKeys);
 
-    return _.reduce(intersections, function (memo, key) {
+    return _reduce(intersections, function (memo, key) {
         if (compare(memo[key], args.dst[key]) < 0) {
             memo[key] = args.dst[key];
         }
@@ -56,10 +62,10 @@ function mergeByDefault(args) {
  */
 function mergeByUnion(args) {
     var result = args.src;
-    var unions = _.union(args.srcKeys, args.dstKeys);
+    var unions = _union(args.srcKeys, args.dstKeys);
 
     var result = {};
-    _.each(unions, function (key) {
+    _each(unions, function (key) {
         var srcVersion = args.src[key] || args.dst[key];
         var dstVersion = args.dst[key] || args.src[key];
 
@@ -82,31 +88,31 @@ function mergeByUnion(args) {
  */
 function mergeByIntersection(args) {
     var result = args.src;
-    var intersections = _.intersection(args.srcKeys, args.dstKeys);
+    var intersections = _intersection(args.srcKeys, args.dstKeys);
 
-    return _.reduce(intersections, function (memo, key) {
+    return _reduce(intersections, function (memo, key) {
         if (compare(memo[key], args.dst[key]) < 0) {
             memo[key] = args.dst[key];
         }
 
         return memo;
-    }, _.pick(args.src, intersections));
+    }, _pick(args.src, intersections));
 }
 
 function merge(src, dst, properties, type) {
-    properties = _.intersection(properties, AVAILABLE_PROPERTIES);
-    properties = _.isEmpty([]) ? AVAILABLE_PROPERTIES : properties;
+    properties = _intersection(properties, AVAILABLE_PROPERTIES);
+    properties = _isEmpty([]) ? AVAILABLE_PROPERTIES : properties;
 
     return Promise.all([
         read(src),
         read(dst)
     ]).then(function (contents) {
-        return _.reduce(properties, function (memo, property) {
+        return _reduce(properties, function (memo, property) {
             var srcDependencies = contents[0][property];
             var dstDependencies = contents[1][property];
 
-            var srcDependenciesKeys = _.keys(srcDependencies);
-            var dstDependenciesKeys = _.keys(dstDependencies);
+            var srcDependenciesKeys = _keys(srcDependencies);
+            var dstDependenciesKeys = _keys(dstDependencies);
 
             var args = {
                 src: srcDependencies || {},
@@ -130,8 +136,8 @@ function merge(src, dst, properties, type) {
 
         }, contents[0]);
     }).then(function (output) {
-        _.each(properties, function (property) {
-            if (_.isEmpty(output[property])) {
+        _each(properties, function (property) {
+            if (_isEmpty(output[property])) {
                 delete output[property];
             }
         });

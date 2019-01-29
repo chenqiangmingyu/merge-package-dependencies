@@ -6,7 +6,8 @@
 var fs = require('fs');
 var path = require('path');
 var valid = require('valid-url');
-var fetch = require('node-fetch');
+// https://github.com/bitinn/node-fetch/issues/450
+var fetch = require('node-fetch').default;
 var logger = require('./logger')();
 
 function read(uri, callback) {

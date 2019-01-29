@@ -14,7 +14,7 @@ module.exports = {
     mode: 'production',
     output: {
         path: path.join(__dirname, 'lib'),
-        libraryTarget: 'commonjs'
+        libraryTarget: 'commonjs2'
     },
     plugins: [
         new CleanWebpackPlugin(['lib'])

@@ -1,8 +1,8 @@
 {
-  "name": "merge-package-flex",
+  "name": "merge-package-dependencies",
   "version": "1.0.0",
   "description": "flexiable package.json merger",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,7 @@
     "lodash": "^4.17.11",
     "node-fetch": "^2.3.0",
     "node-version-compare": "^1.0.1",
+    "prettier-package-json": "^2.0.1",
     "valid-url": "^1.0.9"
   }
 }

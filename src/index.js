@@ -7,6 +7,7 @@
 var path = require('path');
 var _ = require('lodash');
 var compare = require('node-version-compare');
+var format = require('prettier-package-json').format;
 var read = require('./utils/read');
 
 var AVAILABLE_PROPERTIES = ['dependencies', 'devDependencies'];
@@ -135,7 +136,7 @@ function merge(src, dst, properties, type) {
             }
         });
 
-        return output;
+        return format(output);
     });
 }
 
